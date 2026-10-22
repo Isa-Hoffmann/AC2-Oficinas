@@ -1,0 +1,61 @@
+<main class="list-page">
+  <header class="topbar">
+    <a class="brand" routerLink="/cadastro" aria-label="Oficina Aberta, início">
+      <span class="brand-mark" aria-hidden="true">oa</span>
+      <span>oficina<span class="brand-light">aberta</span></span>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a class="nav-link" routerLink="/cadastro">Nova inscrição</a>
+      <a class="nav-link active" routerLink="/lista" aria-current="page">Inscrições</a>
+    </nav>
+  </header>
+
+  <section class="list-content">
+    <a class="back-link" routerLink="/cadastro"><span aria-hidden="true">←</span> Voltar ao cadastro</a>
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">VISÃO GERAL</p>
+        <h1>Inscrições</h1>
+        <p class="subtitle">Acompanhe quem vai participar das próximas oficinas.</p>
+      </div>
+      <a class="new-button" routerLink="/cadastro"><span aria-hidden="true">＋</span> Nova inscrição</a>
+    </div>
+
+    <section class="stats" aria-label="Resumo das inscrições">
+      <article class="stat-card"><span class="stat-icon total" aria-hidden="true">◎</span><div><p>Total de inscrições</p><strong>{{ totalInscricoes }}</strong></div></article>
+      <article class="stat-card"><span class="stat-icon confirmed" aria-hidden="true">✓</span><div><p>Confirmadas</p><strong>{{ inscricoesConfirmadas }}</strong></div></article>
+      <article class="stat-card"><span class="stat-icon pending" aria-hidden="true">◷</span><div><p>Pendentes</p><strong>{{ inscricoesPendentes }}</strong></div></article>
+    </section>
+
+    <section class="records" aria-labelledby="records-title">
+      <div class="records-heading"><div><h2 id="records-title">Participantes</h2><p>{{ totalInscricoes }} {{ totalInscricoes === 1 ? 'pessoa inscrita' : 'pessoas inscritas' }}</p></div><span class="records-count">{{ totalInscricoes }} {{ totalInscricoes === 1 ? 'REGISTRO' : 'REGISTROS' }}</span></div>
+      @if (inscricoes.length === 0) {
+        <div class="empty-state">
+          <span class="empty-icon" aria-hidden="true">✳</span>
+          <h3>Nenhuma inscrição cadastrada</h3>
+          <p>Quando alguém se inscrever, a participação aparecerá aqui.</p>
+          <a class="empty-link" routerLink="/cadastro">Cadastrar primeira inscrição <span aria-hidden="true">→</span></a>
+        </div>
+      } @else {
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>PARTICIPANTE</th><th>OFICINA</th><th>STATUS</th><th class="actions-heading">AÇÕES</th></tr></thead>
+            <tbody>
+              @for (inscricao of inscricoes; track inscricao.id) {
+                <tr>
+                  <td><div class="person"><span class="avatar" aria-hidden="true">{{ inscricao.nome.slice(0, 1).toUpperCase() }}</span><div><strong>{{ inscricao.nome }}</strong><span>{{ inscricao.email }}</span></div></div></td>
+                  <td><span class="workshop-name">{{ inscricao.oficina }}</span></td>
+                  <td><span class="status-pill" [class.status-confirmed]="inscricao.status === 'Confirmada'" [class.status-pending]="inscricao.status === 'Pendente'"><span class="status-dot"></span>{{ inscricao.status }}</span></td>
+                  <td><div class="row-actions"><button class="confirm-button" type="button" [disabled]="inscricao.status === 'Confirmada'" (click)="confirmarInscricao(inscricao.id)"><span aria-hidden="true">✓</span> {{ inscricao.status === 'Confirmada' ? 'Confirmada' : 'Confirmar' }}</button><button class="remove-button" type="button" (click)="remover(inscricao.id)"><span aria-hidden="true">×</span> Remover</button></div></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+    <p class="list-note"><span aria-hidden="true">⌑</span> As inscrições ficam disponíveis enquanto esta sessão estiver aberta.</p>
+  </section>
+  <footer class="page-footer"><span>OFICINA ABERTA</span><span>IDEIAS GANHAM FORMA QUANDO SÃO COMPARTILHADAS.</span></footer>
+</main>
+

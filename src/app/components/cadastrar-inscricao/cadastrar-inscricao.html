@@ -1,0 +1,68 @@
+<main class="page-shell">
+  <header class="topbar">
+    <a class="brand" routerLink="/cadastro" aria-label="Oficina Aberta, início">
+      <span class="brand-mark" aria-hidden="true">oa</span>
+      <span>oficina<span class="brand-light">aberta</span></span>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a class="nav-link active" routerLink="/cadastro" aria-current="page">Nova inscrição</a>
+      <a class="nav-link" routerLink="/lista">Inscrições</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="eyebrow-dot"></span> APRENDA, CRIE, COMPARTILHE</p>
+      <h1>Um lugar para<br /><span>novas ideias.</span></h1>
+      <p class="hero-description">Escolha uma oficina e reserve seu lugar. A próxima descoberta pode começar aqui.</p>
+      <div class="hero-footnote"><span class="sparkle" aria-hidden="true">✳</span> Encontros para curiosos de todas as áreas</div>
+    </div>
+
+    <section class="form-card" aria-labelledby="form-title">
+      <div class="card-heading">
+        <div>
+          <p class="card-kicker">VAMOS COMEÇAR</p>
+          <h2 id="form-title">Faça sua inscrição</h2>
+          <p class="card-subtitle">Preencha seus dados para garantir sua vaga.</p>
+        </div>
+        <span class="step-badge" aria-label="Etapa 1 de 1">01</span>
+      </div>
+
+      <form [formGroup]="formulario" (ngSubmit)="cadastrar()" novalidate>
+        <div class="field-group">
+          <label for="nome">Nome completo</label>
+          <input id="nome" type="text" formControlName="nome" placeholder="Como podemos chamar você?" autocomplete="name" />
+          @if (controles.nome.touched && controles.nome.invalid) {
+            <small class="field-error">Informe seu nome (pelo menos 3 caracteres).</small>
+          }
+        </div>
+        <div class="field-group">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" formControlName="email" placeholder="voce@exemplo.com" autocomplete="email" />
+          @if (controles.email.touched && controles.email.invalid) {
+            <small class="field-error">Informe um e-mail válido.</small>
+          }
+        </div>
+        <div class="field-group">
+          <label for="oficina">Escolha sua oficina</label>
+          <select id="oficina" formControlName="oficina">
+            <option value="" disabled>Selecione uma opção</option>
+            @for (oficina of opcoesOficina; track oficina) {
+              <option [value]="oficina">{{ oficina }}</option>
+            }
+          </select>
+          @if (controles.oficina.touched && controles.oficina.invalid) {
+            <small class="field-error">Escolha uma oficina para continuar.</small>
+          }
+        </div>
+        <button class="submit-button" type="submit">
+          Cadastrar inscrição <span aria-hidden="true">↗</span>
+        </button>
+      </form>
+      <p class="privacy-note"><span aria-hidden="true">⌑</span> Seus dados são usados apenas para organizar as oficinas.</p>
+      <a class="mobile-list-link" routerLink="/lista">Ver inscrições cadastradas <span aria-hidden="true">→</span></a>
+    </section>
+  </section>
+  <footer class="page-footer"><span>OFICINA ABERTA</span><span>IDEIAS GANHAM FORMA QUANDO SÃO COMPARTILHADAS.</span></footer>
+</main>
+
